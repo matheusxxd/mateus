@@ -1,67 +1,14 @@
-import React, { useState, useEffect } from 'react';
-
-// Main App Component
-function App() {
-  const [showModal, setShowModal] = useState(false); // State for modal visibility
-  const [basePrice, setBasePrice] = useState(9.90); // Base price from previous update
-  const [upsellForma, setUpsellForma] = useState(false);
-  const [upsellEbookDoces, setUpsellEbookDoces] = useState(false);
-  const [upsellClubeReceitas, setUpsellClubeReceitas] = useState(false);
-  const [totalPrice, setTotalPrice] = useState(basePrice);
-
-  // Using static placeholders directly for stability
-  const imgPaoArtesanal = "https://placehold.co/600x400/D4B892/6B4F4F?text=Pão+Artesanal+Fresco";
-  const imgIngredientesNaturais = "https://placehold.co/600x400/EFE4D4/6B4F4F?text=Ingredientes+Naturais";
-  const imgPreparoFacil = "https://placehold.co/600x400/F5CBA7/6B4F4F?text=Preparo+Rápido+e+Fácil";
-  const imgPaoDeQueijoFake = "https://placehold.co/300x200/D4B892/6B4F4F?text=Pão+de+Queijo+Fake"; 
-  const imgPaoDoceComFrutas = "https://placehold.co/300x200/EFE4D4/6B4F4F?text=Pão+Doce+com+Frutas";
-  const imgBagueteCrocante = "https://placehold.co/300x200/D1C4E9/6B4F4F?text=Baguete+Artesanal";
-  const heroBackground = 'https://placehold.co/1200x800/EFE4D4/D4B892?text=Background+Texture'; // Hero background placeholder
-
-  // Define upsell prices
-  const upsellPrices = {
-    forma: 29.90,
-    ebookDoces: 19.90,
-    clubeReceitas: 49.90 // Annual subscription
-  };
-
-  // Calculate total price whenever upsell selections change
-  useEffect(() => {
-    let currentTotal = basePrice;
-    if (upsellForma) currentTotal += upsellPrices.forma;
-    if (upsellEbookDoces) currentTotal += upsellPrices.ebookDoces;
-    if (upsellClubeReceitas) currentTotal += upsellPrices.clubeReceitas;
-    setTotalPrice(currentTotal);
-  }, [basePrice, upsellForma, upsellEbookDoces, upsellClubeReceitas]);
-
-  // Simple modal component
-  const Modal = ({ message, onClose }) => {
-    return (
-      <div className="fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center p-4 z-50">
-        <div className="bg-white rounded-lg shadow-xl p-6 max-w-sm w-full text-center">
-          <p className="text-lg font-semibold text-gray-800 mb-4">{message}</p>
-          <button
-            onClick={onClose}
-            className="px-6 py-2 bg-red-800 text-white rounded-full hover:bg-red-900 transition duration-300 shadow-md"
-          >
-            Fechar
-          </button>
-        </div>
-      </div>
-    );
-  };
-
-  const handlePurchase = () => {
-    // In a real application, you'd send selected upsells and total to a payment gateway
-    setShowModal(true);
-  };
-
-  return (
-    <div className="min-h-screen bg-neutral-100 text-neutral-800">
-      {/* Tailwind CSS CDN is loaded in the HTML file for global access */}
-      {/* Google Fonts - Playfair Display and Lato are loaded in the HTML file for global access */}
-
-      <style jsx>{`
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pães Sem Culpa - Deliciosos Pães Sem Glúten e Sem Leite</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Playfair Display and Lato -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
         /* Custom styles for Playfair Display and Lato */
         body {
           font-family: 'Lato', sans-serif;
@@ -81,247 +28,334 @@ function App() {
             background-size: cover;
             background-position: center;
         }
-      `}</style>
+        /* Additional custom styles if needed, for instance, aspect ratio utility */
+        .aspect-w-16 {
+            position: relative;
+            width: 100%;
+        }
+        .aspect-h-9::before {
+            content: "";
+            display: block;
+            padding-bottom: 56.25%; /* 9/16 ratio */
+        }
+        .aspect-w-16 iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+      </style>
+</head>
+<body>
+    <div id="root"></div>
 
-      {/* Hero Section */}
-      <section 
-        className="relative h-screen flex items-center justify-center hero-background-texture text-center p-4"
-        style={{ backgroundImage: `url(${heroBackground})` }}
-      >
-        {/* Overlay for subtle color tint */}
-        <div className="absolute inset-0 bg-neutral-500 opacity-20"></div> 
-        <div className="absolute inset-0 bg-gradient-to-br from-neutral-50 to-neutral-200 opacity-60"></div>
+    <!-- React and ReactDOM CDNs -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Babel for JSX transformation in browser (for development only) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
+    <script type="text/babel">
+        // Main App Component
+        function App() {
+          const [showModal, setShowModal] = React.useState(false); // State for modal visibility
+          const [basePrice, setBasePrice] = React.useState(9.90); // Base price from previous update
+          const [upsellForma, setUpsellForma] = React.useState(false);
+          const [upsellEbookDoces, setUpsellEbookDoces] = React.useState(false);
+          const [upsellClubeReceitas, setUpsellClubeReceitas] = React.useState(false);
+          const [totalPrice, setTotalPrice] = React.useState(basePrice);
 
-        <div className="relative z-10 max-w-4xl mx-auto animate-fadeInUp">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-neutral-900 leading-tight mb-6">
-            <span className="block text-green-700">Pães sem glúten e sem leite,</span>
-            feitos por você, aí na sua cozinha!
-          </h1>
-          <p className="text-xl sm:text-2xl font-light text-neutral-700 mb-8">
-            ✨ Fáceis, rápidos e irresistíveis.
-          </p>
-          <p className="text-lg sm:text-xl font-medium text-neutral-600 mb-10">
-            ⏱️ Prontos em 10 a 15 minutos, com ingredientes simples que você provavelmente já tem em casa.
-          </p>
-          <div className="flex flex-col items-center justify-center space-y-4">
-            <p className="text-2xl font-bold text-yellow-700 mb-4">
-              ⭐ Nota 4.9 de 5.0 – aprovado por milhares de pessoas reais!
-            </p>
-            <button
-              onClick={handlePurchase}
-              className="bg-green-700 hover:bg-green-800 text-white font-bold py-4 px-10 rounded-full text-lg sm:text-xl shadow-xl transform transition duration-300 hover:scale-105 border-2 border-green-800"
-            >
-              COMPRAR AGORA
-            </button>
-          </div>
-        </div>
-      </section>
+          // Using static placeholders directly for stability
+          const imgPaoArtesanal = "https://placehold.co/600x400/D4B892/6B4F4F?text=Pão+Artesanal+Fresco";
+          const imgIngredientesNaturais = "https://placehold.co/600x400/EFE4D4/6B4F4F?text=Ingredientes+Naturais";
+          const imgPreparoFacil = "https://placehold.co/600x400/F5CBA7/6B4F4F?text=Preparo+Rápido+e+Fácil";
+          const imgPaoDeQueijoFake = "https://placehold.co/300x200/D4B892/6B4F4F?text=Pão+de+Queijo+Fake";
+          const imgPaoDoceComFrutas = "https://placehold.co/300x200/EFE4D4/6B4F4F?text=Pão+Doce+com+Frutas";
+          const imgBagueteCrocante = "https://placehold.co/300x200/D1C4E9/6B4F4F?text=Baguete+Artesanal";
+          const heroBackground = 'https://placehold.co/1200x800/EFE4D4/D4B892?text=Background+Texture'; // Hero background placeholder
 
-      {/* Sales Page Content - Integrated as a scrollable section */}
-      <section id="sales-page" className="py-20 bg-stone-50 px-4">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-4xl sm:text-5xl font-bold text-center text-stone-800 mb-16 leading-tight">
-            A Revolução do Pão Caseiro Sem Restrições: Sabor e Saúde em Cada Fatia!
-          </h2>
+          // Define upsell prices
+          const upsellPrices = {
+            forma: 29.90,
+            ebookDoces: 19.90,
+            clubeReceitas: 49.90 // Annual subscription
+          };
 
-          <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
-            <div>
-              <p className="text-lg mb-8 leading-relaxed text-stone-700">
-                Você ama o aconchego de um pão caseiro, mas enfrenta desafios com glúten ou lactose? Ou, talvez, busque uma vida mais leve e nutritiva sem abrir mão do prazer gastronômico? Com Pães Sem Culpa, o aroma irresistível de pão fresquinho pode, finalmente, invadir a sua cozinha!
-              </p>
-              {/* Main Bread Image */}
-                <img
-                  src={imgPaoArtesanal}
-                  alt="Pão artesanal fresco na tábua de madeira"
-                  className="rounded-xl shadow-lg w-full h-auto mb-8 border border-neutral-200"
-                  style={{ width: '600px', height: '400px', objectFit: 'cover', maxWidth: '100%' }}
-                />
-              <p className="text-lg leading-relaxed text-stone-700">
-                Nosso kit exclusivo de receitas e métodos foi cuidadosamente desenvolvido para transformar sua experiência na cozinha. Prepare pães macios por dentro, com a crosta dourada e crocante que só um verdadeiro pão artesanal oferece, tudo isso 100% livre de glúten e leite.
-              </p>
-            </div>
-            <div>
-              {/* Ingredientes Naturais Image */}
-                <img
-                  src={imgIngredientesNaturais}
-                  alt="Ingredientes naturais e utensílios de cozinha rústicos"
-                  className="rounded-xl shadow-lg w-full h-auto mb-8 border border-neutral-200"
-                  style={{ width: '600px', height: '400px', objectFit: 'cover', maxWidth: '100%' }}
-                />
-              <p className="text-lg mb-8 leading-relaxed text-stone-700">
-                Diga adeus às receitas complexas e listas de ingredientes exóticos! Nossa metodologia é descomplicada e pensada para o seu dia a dia. Em apenas 10 a 15 minutos de preparo, você terá um pão quentinho e saboroso, utilizando ingredientes simples que, provavelmente, já fazem parte da sua despensa.
-              </p>
-              {/* Preparo Fácil Image */}
-                <img
-                  src={imgPreparoFacil}
-                  alt="Mãos preparando massa de pão em ambiente iluminado"
-                  className="rounded-xl shadow-lg w-full h-auto border border-neutral-200"
-                  style={{ width: '600px', height: '400px', objectFit: 'cover', maxWidth: '100%' }}
-                />
-            </div>
-          </div>
+          // Calculate total price whenever upsell selections change
+          React.useEffect(() => {
+            let currentTotal = basePrice;
+            if (upsellForma) currentTotal += upsellPrices.forma;
+            if (upsellEbookDoces) currentTotal += upsellPrices.ebookDoces;
+            if (upsellClubeReceitas) currentTotal += upsellPrices.clubeReceitas;
+            setTotalPrice(currentTotal);
+          }, [basePrice, upsellForma, upsellEbookDoces, upsellClubeReceitas]);
 
-          {/* Testimonials Section */}
-          <h3 className="text-3xl sm:text-4xl font-bold text-center text-stone-800 mb-12">
-            Histórias de Sucesso Reais
-          </h3>
-          <div className="grid md:grid-cols-2 gap-10 mb-20">
-            <div className="bg-amber-50 p-8 rounded-lg shadow-md border border-amber-100 transform hover:scale-105 transition duration-300">
-              <p className="text-xl font-semibold text-amber-800 mb-4 italic">"Sabor e praticidade que transformaram!"</p>
-              <p className="text-stone-700 mb-4 leading-relaxed">
-                "Desde que descobri os pães sem glúten e sem leite, minha vida mudou. Antes, era uma luta para encontrar opções saborosas. Agora, faço meu pão fresco todos os dias em casa. É inacreditável como é fácil e delicioso!"
-              </p>
-              <p className="font-medium text-stone-600">- Clara M., Curitiba</p>
-              <div className="flex justify-center text-yellow-600 mt-4">
-                {'⭐'.repeat(5)}
+          // Simple modal component
+          const Modal = ({ message, onClose }) => {
+            return (
+              <div className="fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center p-4 z-50">
+                <div className="bg-white rounded-lg shadow-xl p-6 max-w-sm w-full text-center">
+                  <p className="text-lg font-semibold text-gray-800 mb-4">{message}</p>
+                  <button
+                    onClick={onClose}
+                    className="px-6 py-2 bg-red-800 text-white rounded-full hover:bg-red-900 transition duration-300 shadow-md"
+                  >
+                    Fechar
+                  </button>
+                </div>
               </div>
-            </div>
-            <div className="bg-amber-50 p-8 rounded-lg shadow-md border border-amber-100 transform hover:scale-105 transition duration-300">
-              <p className="text-xl font-semibold text-amber-800 mb-4 italic">"O fim das restrições, o início do prazer!"</p>
-              <p className="text-stone-700 mb-4 leading-relaxed">
-                "Sempre senti falta de um pão de verdade. Com a receita de Pães Sem Culpa, finalmente posso desfrutar de um pão quentinho e fofinho sem culpa e sem reações. Minha família toda aprovou!"
-              </p>
-              <p className="font-medium text-stone-600">- João P., São Paulo</p>
-              <div className="flex justify-center text-yellow-600 mt-4">
-                {'⭐'.repeat(5)}
-              </div>
-            </div>
-            {/* Approval Seal */}
-            <div className="md:col-span-2 text-center mt-12">
-              <p className="text-4xl font-bold text-yellow-700 mb-4">
-                ⭐ 4.9 de 5.0
-              </p>
-              <p className="text-stone-700 text-xl font-semibold">Aprovado por milhares de amantes de pão! </p>
-            </div>
-          </div>
+            );
+          };
 
-          {/* Video Section */}
-          <h3 className="text-3xl sm:text-4xl font-bold text-center text-stone-800 mb-12">
-            Sua Cozinha, Seu Forno, Seu Pão Perfeito!
-          </h3>
-          <div className="aspect-w-16 aspect-h-9 w-full bg-stone-200 rounded-xl shadow-lg overflow-hidden mb-20 flex items-center justify-center border border-stone-300">
-            {/* Placeholder for YouTube embedded video */}
-            <iframe
-              width="100%"
-              height="100%"
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=0"
-              title="Vídeo de Preparo de Pão (Placeholder)"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="w-full h-full"
-            ></iframe>
-            <div className="absolute inset-0 flex items-center justify-center text-stone-500 text-3xl font-bold bg-black bg-opacity-30">
-                Vídeo de Demonstração
-            </div>
-          </div>
+          const handlePurchase = () => {
+            // In a real application, you'd send selected upsells and total to a payment gateway
+            setShowModal(true);
+          };
 
-          {/* Bonus Recipes Section */}
-          <h3 className="text-3xl sm:text-4xl font-bold text-center text-stone-800 mb-12">
-            Receitas Bônus Exclusivas: Amplie o Sabor!
-          </h3>
-          <div className="grid md:grid-cols-3 gap-10 mb-20">
-            <div className="bg-stone-100 p-8 rounded-lg shadow-md text-center border border-stone-200 hover:shadow-xl transition duration-300">
-              {/* Pão de Queijo Fake Image */}
-                <img
-                  src={imgPaoDeQueijoFake}
-                  alt="Pão de Queijo Fake Cremoso"
-                  className="rounded-lg mb-6 w-full h-auto border border-stone-200"
-                  style={{ width: '300px', height: '200px', objectFit: 'cover', maxWidth: '100%' }}
-                  onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/300x200/D4B892/6B4F4F?text=Pão+de+Queijo+Fake'; }} // Fallback
-                />
-              <p className="text-xl font-semibold text-stone-700 leading-snug">Pão de Queijo Fake Cremoso</p>
-            </div>
-            <div className="bg-stone-100 p-8 rounded-lg shadow-md text-center border border-stone-200 hover:shadow-xl transition duration-300">
-              {/* Pão Doce com Frutas Image */}
-                <img
-                  src={imgPaoDoceComFrutas}
-                  alt="Pão Doce com Frutas"
-                  className="rounded-lg mb-6 w-full h-auto border border-stone-200"
-                  style={{ width: '300px', height: '200px', objectFit: 'cover', maxWidth: '100%' }}
-                  onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/300x200/EFE4D4/6B4F4F?text=Pão+Doce+com+Frutas'; }} // Fallback
-                />
-              <p className="text-xl font-semibold text-stone-700 leading-snug">Pão Doce com Frutas Secas</p>
-            </div>
-            <div className="bg-stone-100 p-8 rounded-lg shadow-md text-center border border-stone-200 hover:shadow-xl transition duration-300">
-              {/* Baguete Crocante Image */}
-                <img
-                  src={imgBagueteCrocante}
-                  alt="Baguete Crocante"
-                  className="rounded-lg mb-6 w-full h-auto border border-stone-200"
-                  style={{ width: '300px', height: '200px', objectFit: 'cover', maxWidth: '100%' }}
-                  onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/300x200/D1C4E9/6B4F4F?text=Baguete+Artesanal'; }}
-                />
-              <p className="text-xl font-semibold text-stone-700 leading-snug">Baguete Artesanal Crocante</p>
-            </div>
-          </div>
+          return (
+            <div className="min-h-screen bg-neutral-100 text-neutral-800">
+              {/* Hero Section */}
+              <section 
+                className="relative h-screen flex items-center justify-center hero-background-texture text-center p-4"
+                style={{ backgroundImage: `url(${heroBackground})` }}
+              >
+                {/* Overlay for subtle color tint */}
+                <div className="absolute inset-0 bg-neutral-500 opacity-20"></div> 
+                <div className="absolute inset-0 bg-gradient-to-br from-neutral-50 to-neutral-200 opacity-60"></div>
 
-          {/* Guarantee Section */}
-          <div className="bg-green-50 p-10 rounded-lg shadow-xl mb-20 border-l-8 border-green-700">
-            <h3 className="text-3xl font-bold text-green-800 mb-6 text-center leading-snug">
-              Sua Satisfação, Nossa Prioridade: Garantia Incondicional!
-            </h3>
-            <p className="text-lg text-stone-700 text-center leading-relaxed">
-              Temos plena convicção na qualidade e na simplicidade revolucionária do nosso kit. É por isso que oferecemos uma garantia de satisfação total. Se, por qualquer razão, você não se encantar com seus pães sem glúten e sem leite, basta nos contatar em até 30 dias após a compra, e devolveremos seu investimento integralmente. Sua felicidade é a nossa receita de sucesso!
-            </p>
-          </div>
 
-          {/* Optimized Checkout (Simplified) */}
-          <div className="bg-stone-50 p-10 rounded-lg shadow-xl border border-stone-200 text-center">
-            <h3 className="text-4xl font-bold text-stone-800 mb-8">
-              Aproveite Esta Oferta Única!
-            </h3>
-            <p className="text-3xl font-bold text-red-700 line-through mb-4">De R$39,90</p>
-            <p className="text-6xl font-extrabold text-green-700 mb-8">Apenas R$9,90</p>
-            <p className="text-2xl font-semibold text-stone-700 mb-10">no Pix</p>
-            
-            {/* Upsell Options */}
-            <div className="mt-8 mb-10 space-y-6 text-left">
-                <p className="text-xl font-bold text-stone-700 mb-4 text-center">Adicione e otimize sua experiência:</p>
-                
-                {/* Upsell 1: Fôrma de Pão */}
-                <label className="flex items-center p-4 bg-white rounded-lg shadow-md cursor-pointer hover:bg-gray-50 transition duration-200 border border-gray-200">
-                    <input
-                        type="checkbox"
-                        checked={upsellForma}
-                        onChange={() => setUpsellForma(!upsellForma)}
-                        className="form-checkbox h-6 w-6 text-green-600 rounded focus:ring-green-500 mr-4"
-                    />
+                <div className="relative z-10 max-w-4xl mx-auto animate-fadeInUp">
+                  <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-neutral-900 leading-tight mb-6">
+                    <span className="block text-green-700">Pães sem glúten e sem leite,</span>
+                    feitos por você, aí na sua cozinha!
+                  </h1>
+                  <p className="text-xl sm:text-2xl font-light text-neutral-700 mb-8">
+                    ✨ Fáceis, rápidos e irresistíveis.
+                  </p>
+                  <p className="text-lg sm:text-xl font-medium text-neutral-600 mb-10">
+                    ⏱️ Prontos em 10 a 15 minutos, com ingredientes simples que você provavelmente já tem em casa.
+                  </p>
+                  <div className="flex flex-col items-center justify-center space-y-4">
+                    <p className="text-2xl font-bold text-yellow-700 mb-4">
+                      ⭐ Nota 4.9 de 5.0 – aprovado por milhares de pessoas reais!
+                    </p>
+                    <button
+                      onClick={handlePurchase}
+                      className="bg-green-700 hover:bg-green-800 text-white font-bold py-4 px-10 rounded-full text-lg sm:text-xl shadow-xl transform transition duration-300 hover:scale-105 border-2 border-green-800"
+                    >
+                      COMPRAR AGORA
+                    </button>
+                  </div>
+                </div>
+              </section>
+
+              {/* Sales Page Content - Integrated as a scrollable section */}
+              <section id="sales-page" className="py-20 bg-stone-50 px-4">
+                <div className="max-w-5xl mx-auto">
+                  <h2 className="text-4xl sm:text-5xl font-bold text-center text-stone-800 mb-16 leading-tight">
+                    A Revolução do Pão Caseiro Sem Restrições: Sabor e Saúde em Cada Fatia!
+                  </h2>
+
+                  <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
                     <div>
-                        <span className="text-lg font-semibold text-gray-800">Fôrma de Pão Antiaderente Premium</span>
-                        <span className="block text-gray-600 text-sm">Perfeição no formato e desmolde fácil.</span>
-                        <span className="block text-green-700 font-bold mt-1"> +R${upsellPrices.forma.toFixed(2).replace('.', ',')}</span>
+                      <p className="text-lg mb-8 leading-relaxed text-stone-700">
+                        Você ama o aconchego de um pão caseiro, mas enfrenta desafios com glúten ou lactose? Ou, talvez, busque uma vida mais leve e nutritiva sem abrir mão do prazer gastronômico? Com Pães Sem Culpa, o aroma irresistível de pão fresquinho pode, finalmente, invadir a sua cozinha!
+                      </p>
+                      {/* Main Bread Image */}
+                        <img
+                          src={imgPaoArtesanal}
+                          alt="Pão artesanal fresco na tábua de madeira"
+                          className="rounded-xl shadow-lg w-full h-auto mb-8 border border-neutral-200"
+                          style={{ width: '600px', height: '400px', objectFit: 'cover', maxWidth: '100%' }}
+                        />
+                      <p className="text-lg leading-relaxed text-stone-700">
+                        Nosso kit exclusivo de receitas e métodos foi cuidadosamente desenvolvido para transformar sua experiência na cozinha. Prepare pães macios por dentro, com a crosta dourada e crocante que só um verdadeiro pão artesanal oferece, tudo isso 100% livre de glúten e leite.
+                      </p>
                     </div>
-                </label>
-
-                {/* Upsell 2: E-book de Receitas Doces */}
-                <label className="flex items-center p-4 bg-white rounded-lg shadow-md cursor-pointer hover:bg-gray-50 transition duration-200 border border-gray-200">
-                    <input
-                        type="checkbox"
-                        checked={upsellEbookDoces}
-                        onChange={() => setUpsellEbookDoces(!upsellEbookDoces)}
-                        className="form-checkbox h-6 w-6 text-green-600 rounded focus:ring-green-500 mr-4"
-                    />
                     <div>
-                        <span className="text-lg font-semibold text-gray-800">E-book "Doce e Saudável: Lanches e Sobremesas Sem Glúten e Sem Leite"</span>
-                        <span className="block text-gray-600 text-sm">Amplie seu cardápio com 20 receitas exclusivas!</span>
-                        <span className="block text-green-700 font-bold mt-1"> +R${upsellPrices.ebookDoces.toFixed(2).replace('.', ',')}</span>
+                      {/* Ingredientes Naturais Image */}
+                        <img
+                          src={imgIngredientesNaturais}
+                          alt="Ingredientes naturais e utensílios de cozinha rústicos"
+                          className="rounded-xl shadow-lg w-full h-auto mb-8 border border-neutral-200"
+                          style={{ width: '600px', height: '400px', objectFit: 'cover', maxWidth: '100%' }}
+                        />
+                      <p className="text-lg mb-8 leading-relaxed text-stone-700">
+                        Diga adeus às receitas complexas e listas de ingredientes exóticos! Nossa metodologia é descomplicada e pensada para o seu dia a dia. Em apenas 10 a 15 minutos de preparo, você terá um pão quentinho e saboroso, utilizando ingredientes simples que, provavelmente, já fazem parte da sua despensa.
+                      </p>
+                      {/* Preparo Fácil Image */}
+                        <img
+                          src={imgPreparoFacil}
+                          alt="Mãos preparando massa de pão em ambiente iluminado"
+                          className="rounded-xl shadow-lg w-full h-auto border border-neutral-200"
+                          style={{ width: '600px', height: '400px', objectFit: 'cover', maxWidth: '100%' }}
+                        />
                     </div>
-                </label>
+                  </div>
 
-                {/* Upsell 3: Assinatura Clube de Receitas */}
-                <label className="flex items-center p-4 bg-white rounded-lg shadow-md cursor-pointer hover:bg-gray-50 transition duration-200 border border-gray-200">
-                    <input
-                        type="checkbox"
-                        checked={upsellClubeReceitas}
-                        onChange={() => setUpsellClubeReceitas(!upsellClubeReceitas)}
-                        className="form-checkbox h-6 w-6 text-green-600 rounded focus:ring-green-500 mr-4"
-                    />
-                    <div>
-                        <span className="text-lg font-semibold text-gray-800">Assinatura Anual: Clube de Receitas Exclusivas</span>
-                        <span className="block text-gray-600 text-sm">Novas receitas e inspirações todo mês, por um ano.</span>
-                        <span className="block text-green-700 font-bold mt-1"> +R${upsellPrices.clubeReceitas.toFixed(2).replace('.', ',')}</span>
+                  {/* Testimonials Section */}
+                  <h3 className="text-3xl sm:text-4xl font-bold text-center text-stone-800 mb-12">
+                    Histórias de Sucesso Reais
+                  </h3>
+                  <div className="grid md:grid-cols-2 gap-10 mb-20">
+                    <div className="bg-amber-50 p-8 rounded-lg shadow-md border border-amber-100 transform hover:scale-105 transition duration-300">
+                      <p className="text-xl font-semibold text-amber-800 mb-4 italic">"Sabor e praticidade que transformaram!"</p>
+                      <p className="text-stone-700 mb-4 leading-relaxed">
+                        "Desde que descobri os pães sem glúten e sem leite, minha vida mudou. Antes, era uma luta para encontrar opções saborosas. Agora, faço meu pão fresco todos os dias em casa. É inacreditável como é fácil e delicioso!"
+                      </p>
+                      <p className="font-medium text-stone-600">- Clara M., Curitiba</p>
+                      <div className="flex justify-center text-yellow-600 mt-4">
+                        {'⭐'.repeat(5)}
+                      </div>
+                    </div>
+                    <div className="bg-amber-50 p-8 rounded-lg shadow-md border border-amber-100 transform hover:scale-105 transition duration-300">
+                      <p className="text-xl font-semibold text-amber-800 mb-4 italic">"O fim das restrições, o início do prazer!"</p>
+                      <p className="text-stone-700 mb-4 leading-relaxed">
+                        "Sempre senti falta de um pão de verdade. Com a receita de Pães Sem Culpa, finalmente posso desfrutar de um pão quentinho e fofinho sem culpa e sem reações. Minha família toda aprovou!"
+                      </p>
+                      <p className="font-medium text-stone-600">- João P., São Paulo</p>
+                      <div className="flex justify-center text-yellow-600 mt-4">
+                        {'⭐'.repeat(5)}
+                      </div>
+                    </div>
+                    {/* Approval Seal */}
+                    <div className="md:col-span-2 text-center mt-12">
+                      <p className="text-4xl font-bold text-yellow-700 mb-4">
+                        ⭐ 4.9 de 5.0
+                      </p>
+                      <p className="text-stone-700 text-xl font-semibold">Aprovado por milhares de amantes de pão! </p>
+                    </div>
+                  </div>
+
+                  {/* Video Section */}
+                  <h3 className="text-3xl sm:text-4xl font-bold text-center text-stone-800 mb-12">
+                    Sua Cozinha, Seu Forno, Seu Pão Perfeito!
+                  </h3>
+                  {/* Removed the YouTube video section as per user's request in previous turns. */}
+                  {/* <div className="aspect-w-16 aspect-h-9 w-full bg-stone-200 rounded-xl shadow-lg overflow-hidden mb-20 flex items-center justify-center border border-stone-300">
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=0"
+                      title="Vídeo de Preparo de Pão (Placeholder)"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="w-full h-full"
+                    ></iframe>
+                    <div className="absolute inset-0 flex items-center justify-center text-stone-500 text-3xl font-bold bg-black bg-opacity-30">
+                        Vídeo de Demonstração
+                    </div>
+                  </div> */}
+
+                  {/* Bonus Recipes Section */}
+                  <h3 className="text-3xl sm:text-4xl font-bold text-center text-stone-800 mb-12">
+                    Receitas Bônus Exclusivas: Amplie o Sabor!
+                  </h3>
+                  <div className="grid md:grid-cols-3 gap-10 mb-20">
+                    <div className="bg-stone-100 p-8 rounded-lg shadow-md text-center border border-stone-200 hover:shadow-xl transition duration-300">
+                      {/* Pão de Queijo Fake Image */}
+                        <img
+                          src={imgPaoDeQueijoFake}
+                          alt="Pão de Queijo Fake Cremoso"
+                          className="rounded-lg mb-6 w-full h-auto border border-stone-200"
+                          style={{ width: '300px', height: '200px', objectFit: 'cover', maxWidth: '100%' }}
+                          onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/300x200/D4B892/6B4F4F?text=Pão+de+Queijo+Fake'; }} // Fallback
+                        />
+                      <p className="text-xl font-semibold text-stone-700 leading-snug">Pão de Queijo Fake Cremoso</p>
+                    </div>
+                    <div className="bg-stone-100 p-8 rounded-lg shadow-md text-center border border-stone-200 hover:shadow-xl transition duration-300">
+                      {/* Pão Doce com Frutas Image */}
+                        <img
+                          src={imgPaoDoceComFrutas}
+                          alt="Pão Doce com Frutas"
+                          className="rounded-lg mb-6 w-full h-auto border border-stone-200"
+                          style={{ width: '300px', height: '200px', objectFit: 'cover', maxWidth: '100%' }}
+                          onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/300x200/EFE4D4/6B4F4F?text=Pão+Doce+com+Frutas'; }} // Fallback
+                        />
+                      <p className="text-xl font-semibold text-stone-700 leading-snug">Pão Doce com Frutas Secas</p>
+                    </div>
+                    <div className="bg-stone-100 p-8 rounded-lg shadow-md text-center border border-stone-200 hover:shadow-xl transition duration-300">
+                      {/* Baguete Crocante Image */}
+                        <img
+                          src={imgBagueteCrocante}
+                          alt="Baguete Crocante"
+                          className="rounded-lg mb-6 w-full h-auto border border-neutral-200"
+                          style={{ width: '300px', height: '200px', objectFit: 'cover', maxWidth: '100%' }}
+                          onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/300x200/D1C4E9/6B4F4F?text=Baguete+Artesanal'; }}
+                        />
+                      <p className="text-xl font-semibold text-stone-700 leading-snug">Baguete Artesanal Crocante</p>
+                    </div>
+                  </div>
+
+                  {/* Guarantee Section */}
+                  <div className="bg-green-50 p-10 rounded-lg shadow-xl mb-20 border-l-8 border-green-700">
+                    <h3 className="text-3xl font-bold text-green-800 mb-6 text-center leading-snug">
+                      Sua Satisfação, Nossa Prioridade: Garantia Incondicional!
+                    </h3>
+                    <p className="text-lg text-stone-700 text-center leading-relaxed">
+                      Temos plena convicção na qualidade e na simplicidade revolucionária do nosso kit. É por isso que oferecemos uma garantia de satisfação total. Se, por qualquer razão, você não se encantar com seus pães sem glúten e sem leite, basta nos contatar em até 30 dias após a compra, e devolveremos seu investimento integralmente. Sua felicidade é a nossa receita de sucesso!
+                    </p>
+                  </div>
+
+                  {/* Optimized Checkout (Simplified) */}
+                  <div className="bg-stone-50 p-10 rounded-lg shadow-xl border border-stone-200 text-center">
+                    <h3 className="text-4xl font-bold text-stone-800 mb-8">
+                      Aproveite Esta Oferta Única!
+                    </h3>
+                    <p className="text-3xl font-bold text-red-700 line-through mb-4">De R$39,90</p>
+                    <p className="text-6xl font-extrabold text-green-700 mb-8">Apenas R$9,90</p>
+                    <p className="text-2xl font-semibold text-stone-700 mb-10">no Pix</p>
+                    
+                    {/* Upsell Options */}
+                    <div className="mt-8 mb-10 space-y-6 text-left">
+                        <p className="text-xl font-bold text-stone-700 mb-4 text-center">Adicione e otimize sua experiência:</p>
+                        
+                        {/* Upsell 1: Fôrma de Pão */}
+                        <label className="flex items-center p-4 bg-white rounded-lg shadow-md cursor-pointer hover:bg-gray-50 transition duration-200 border border-gray-200">
+                            <input
+                                type="checkbox"
+                                checked={upsellForma}
+                                onChange={() => setUpsellForma(!upsellForma)}
+                                className="form-checkbox h-6 w-6 text-green-600 rounded focus:ring-green-500 mr-4"
+                            />
+                            <div>
+                                <span className="text-lg font-semibold text-gray-800">Fôrma de Pão Antiaderente Premium</span>
+                                <span className="block text-gray-600 text-sm">Perfeição no formato e desmolde fácil.</span>
+                                <span className="block text-green-700 font-bold mt-1"> +R${upsellPrices.forma.toFixed(2).replace('.', ',')}</span>
+                            </div>
+                        </label>
+
+                        {/* Upsell 2: E-book de Receitas Doces */}
+                        <label className="flex items-center p-4 bg-white rounded-lg shadow-md cursor-pointer hover:bg-gray-50 transition duration-200 border border-gray-200">
+                            <input
+                                type="checkbox"
+                                checked={upsellEbookDoces}
+                                onChange={() => setUpsellEbookDoces(!upsellEbookDoces)}
+                                className="form-checkbox h-6 w-6 text-green-600 rounded focus:ring-green-500 mr-4"
+                            />
+                            <div>
+                                <span className="text-lg font-semibold text-gray-800">E-book "Doce e Saudável: Lanches e Sobremesas Sem Glúten e Sem Leite"</span>
+                                <span className="block text-gray-600 text-sm">Amplie seu cardápio com 20 receitas exclusivas!</span>
+                                <span className="block text-green-700 font-bold mt-1"> +R${upsellPrices.ebookDoces.toFixed(2).replace('.', ',')}</span>
+                            </div>
+                        </label>
+
+                        {/* Upsell 3: Assinatura Clube de Receitas */}
+                        <label className="flex items-center p-4 bg-white rounded-lg shadow-md cursor-pointer hover:bg-gray-50 transition duration-200 border border-gray-200">
+                            <input
+                                type="checkbox"
+                                checked={upsellClubeReceitas}
+                                onChange={() => setUpsellClubeReceitas(!upsellClubeReceitas)}
+                                className="form-checkbox h-6 w-6 text-green-600 rounded focus:ring-green-500 mr-4"
+                            />
+                            <div>
+                                <span className="text-lg font-semibold text-gray-800">Assinatura Anual: Clube de Receitas Exclusivas</span>
+                                <span className="block text-gray-600 text-sm">Novas receitas e inspirações todo mês, por um ano.</span>
+                                <span className="block text-green-700 font-bold mt-1"> +R${upsellPrices.clubeReceitas.toFixed(2).replace('.', ',')}</span>
+                            </div>
+                        </label>
                     </div>
                 </label>
             </div>
@@ -369,4 +403,4 @@ function App() {
   );
 }
 
-export default App;
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
